@@ -2,14 +2,6 @@
 ;NEXT FRAGMENT INDEX 2
 Scriptname TIF__0800EB00 Extends TopicInfo Hidden
 
-ReferenceAlias Property PlayerTargetPointerRefAlias Auto
-Actor Property PlayerRef Auto
-
-Spell Property MarkTargetsSpell Auto
-
-Function Fragment_0(ObjectReference akSpeakerRef)
-EndFunction
-
 ;BEGIN FRAGMENT Fragment_1
 Function Fragment_1(ObjectReference akSpeakerRef)
 Actor akSpeaker = akSpeakerRef as Actor

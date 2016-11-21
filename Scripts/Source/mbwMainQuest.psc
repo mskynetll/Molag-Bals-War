@@ -49,7 +49,6 @@ Function Maintenance()
 		PlayerRef = Game.GetPlayer()
 	EndIf
 	AzazelRef.AddSpell(AzazelEventsQuest.ChameleonSpell, false)
-	AzazelEventsQuest.ChameleonSpell.Cast(AzazelRef)
 	Debug.Notification("Current Molag Bal's War version = " + ModVersion)
 EndFunction
 
