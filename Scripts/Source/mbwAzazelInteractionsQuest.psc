@@ -27,4 +27,9 @@ Function Maintenance()
 			AzazelEquipmentRef.TryAddToArmorSlot(ConfigQuest.AzazelDefaultBoots)
 		endif
 	EndIf
+	If ModVersion == "0.0.5"
+		ModVersion = "0.0.6"
+	EndIf
+	
+	Debug.Notification("Molag Bal's War running, version " + ModVersion)
 EndFunction
