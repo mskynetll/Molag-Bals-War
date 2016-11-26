@@ -3,7 +3,6 @@ Scriptname mbwTeleportLaggingFollowerEffect extends ActiveMagicEffect
 Actor Property AzazelRef Auto
 Actor Property PlayerRef Auto
 bool Property IsAzazelSeenByPlayer Auto
-Spell Property TeleportLaggingFollowerSpell Auto
 
 Event OnEffectStart(Actor akTarget, Actor akCaster)
 	AzazelRef = akTarget
@@ -30,12 +29,4 @@ EndEvent
 Event OnLostLOS(Actor akViewer, ObjectReference akTarget)	
 	IsAzazelSeenByPlayer = false
 	RegisterForSingleLOSLost(PlayerRef, AzazelRef)
-EndEvent
-
-
-
-Event OnEffectFinish(Actor akTarget, Actor akCaster)
-	;precaution...
-	AzazelRef.RemoveSpell(TeleportLaggingFollowerSpell)
-	AzazelRef.AddSpell(TeleportLaggingFollowerSpell)
 EndEvent
