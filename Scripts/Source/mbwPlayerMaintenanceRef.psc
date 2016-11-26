@@ -1,0 +1,9 @@
+Scriptname mbwPlayerMaintenanceRef extends ReferenceAlias
+
+mbwAzazelInteractionsQuest Property AzazelInteractionsQuest Auto
+mbwConsequencesTrackerQuest Property ConsequencesTrackerQuest Auto
+
+Event OnPlayerLoadGame()
+	AzazelInteractionsQuest.Maintenance()
+	ConsequencesTrackerQuest.Maintenance()
+EndEvent
