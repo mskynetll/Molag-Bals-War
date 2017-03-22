@@ -1,0 +1,4 @@
+Scriptname mbwPlayer extends Actor
+
+mbwConfigQuest Property ConfigQuest Auto
+mbwEventsDispatcherQuest Property EventsDispatcherQuest Auto

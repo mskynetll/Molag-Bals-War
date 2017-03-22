@@ -2,7 +2,6 @@
 ;NEXT FRAGMENT INDEX 1
 Scriptname TIF__08005398 Extends TopicInfo Hidden
 
-mbwAzazelTrainingQuest Property TrainingQuest Auto
 DialogueFollowerScript Property FollowerQuest Auto
 
 ;BEGIN FRAGMENT Fragment_0
@@ -12,7 +11,6 @@ Actor akSpeaker = akSpeakerRef as Actor
 getowningquest().setstage(20)
 FollowerQuest.DismissFollower(0,0)
 FollowerQuest.SetFollower(akSpeaker)
-TrainingQuest.Start()
 ;END CODE
 EndFunction
 ;END FRAGMENT

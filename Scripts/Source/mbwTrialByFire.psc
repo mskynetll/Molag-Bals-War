@@ -1,0 +1,1 @@
+Scriptname mbwTrialByFire extends Quest

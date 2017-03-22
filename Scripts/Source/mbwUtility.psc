@@ -171,3 +171,29 @@ Float[] Function GetPostionAwayFromRefFacing(ObjectReference akSource, Float afD
 	Offsets[1] = Math.Cos(A) * afDistance 
 	Return Offsets
 Endfunction
+
+;adapted code from https://www.creationkit.com/index.php?title=Slot_Masks_-_Armor
+Armor[] Function GetWornArmor(Actor target) global
+    Armor[] wornArmor = new Armor[30]
+    int index
+    int slotsChecked
+    slotsChecked += 0x00100000
+    slotsChecked += 0x00200000 ;ignore reserved slots
+    slotsChecked += 0x80000000
+ 
+    int currentSlot = 0x01
+    while (currentSlot < 0x80000000)
+        if (Math.LogicalAnd(slotsChecked, currentSlot) != currentSlot) ;only check slots we haven't found anything equipped on already
+            Armor currentArmor = target.GetWornForm(currentSlot) as Armor
+            if currentArmor != None
+                wornArmor[index] = currentArmor
+                index += 1
+                slotsChecked += currentArmor.GetSlotMask() ;add all slots this item covers to our slotsChecked variable
+            else ;no armor was found on this slot
+                slotsChecked += currentSlot
+            endif
+        endif
+        currentSlot *= 2 ;double the number to move on to the next slot
+    endWhile
+    return wornArmor
+EndFunction

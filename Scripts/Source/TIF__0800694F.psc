@@ -3,7 +3,6 @@
 Scriptname TIF__0800694F Extends TopicInfo Hidden
 
 DialogueFollowerScript Property FollowerQuest Auto
-mbwAzazelTrainingQuest Property TrainingQuest Auto
 
 ;BEGIN FRAGMENT Fragment_0
 Function Fragment_0(ObjectReference akSpeakerRef)
@@ -12,7 +11,6 @@ Actor akSpeaker = akSpeakerRef as Actor
 getowningquest().setstage(20)
 FollowerQuest.DismissFollower(0,0)
 FollowerQuest.SetFollower(akSpeaker)
-TrainingQuest.Start()
 ;END CODE
 EndFunction
 ;END FRAGMENT

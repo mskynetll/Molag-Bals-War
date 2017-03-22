@@ -9,10 +9,14 @@ float Property TrainingProgressToNextRank Auto Conditional
 int Property TraineeRank Auto Conditional
 
 Event OnCombatStateChanged(Actor akTarget, int aeCombatState)
-	MiscUtil.PrintConsole("Azazel's combat state changed, combat state = " + aeCombatState + ", target = " + akTarget)
+	if ConfigQuest.ConsoleDebugEnabled
+		MiscUtil.PrintConsole("[mbw] Azazel's combat state changed, combat state = " + aeCombatState + ", target = " + akTarget)
+	endif
 EndEvent
 
 Event OnHit(ObjectReference akAggressor, Form akSource, Projectile akProjectile, bool abPowerAttack, bool abSneakAttack, \
   bool abBashAttack, bool abHitBlocked)
- 	MiscUtil.PrintConsole("Azazel OnHit, aggressor = " + akAggressor + ", isBlocked =" + abHitBlocked)
+	if ConfigQuest.ConsoleDebugEnabled
+ 		MiscUtil.PrintConsole("[mbw] Azazel OnHit, aggressor = " + akAggressor + ", isBlocked =" + abHitBlocked)
+ 	endif
 EndEvent

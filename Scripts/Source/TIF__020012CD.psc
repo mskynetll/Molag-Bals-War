@@ -1,0 +1,4 @@
+Scriptname TIF__020012CD Extends TopicInfo Hidden
+
+Function Fragment_0(ObjectReference akSpeakerRef)
+EndFunction

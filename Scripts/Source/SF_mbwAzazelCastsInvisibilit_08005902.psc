@@ -6,7 +6,7 @@ Scriptname SF_mbwAzazelCastsInvisibilit_08005902 Extends Scene Hidden
 Function Fragment_0()
 ;BEGIN CODE
 Debug.Notification("The spell leaves you feeling... hot? Weird..")
-mbwUtility.SendIncreaseArousal(Game.GetPlayer(),3.0)
+mbwUtility.SendIncreaseArousal(Game.GetPlayer(),3.5)
 ;END CODE
 EndFunction
 ;END FRAGMENT
