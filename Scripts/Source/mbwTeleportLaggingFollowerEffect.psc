@@ -14,7 +14,7 @@ EndEvent
 
 Event OnUpdate()
 	float distance = AzazelRef.GetDistance(PlayerRef)
-	if IsAzazelActiveFollower && !IsAzazelSeenByPlayer  && distance > 1000.0 && AzazelRef.IsBleedingOut() == false && AzazelRef.IsSneaking() == false && AzazelRef.GetCombatState() == 0
+	if IsAzazelActiveFollower && !IsAzazelSeenByPlayer  && distance > 800.0 && AzazelRef.IsBleedingOut() == false && AzazelRef.IsSneaking() == false && AzazelRef.GetCombatState() == 0
 		float[] offsets = mbwUtility.GetPostionAwayFromRefFacing(PlayerRef,100.0, -50.0)
 		AzazelRef.MoveTo(PlayerRef, offsets[0], offsets[1], 0, true)
 		Debug.Notification("[mbw debug] Azazel lags too far behind, teleporting behind player")

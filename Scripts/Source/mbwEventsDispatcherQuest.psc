@@ -88,8 +88,11 @@ Function PlayerLocationChange(Location akOldLoc, Location akNewLoc)
 			Debug.Notification("[mbw] Player changed location from [WILDERNESS] to " + akNewLoc.GetName())
 			MiscUtil.PrintConsole("[mbw] Player changed location from [WILDERNESS] to " + akNewLoc.GetName())
 		elseif akOldLoc != None && akNewLoc == None
-			Debug.Notification("[mbw] Player changed location from [WILDERNESS] to " + akNewLoc.GetName())
-			MiscUtil.PrintConsole("[mbw] Player changed location from [WILDERNESS] to " + akNewLoc.GetName())
+			Debug.Notification("[mbw] Player changed location from " + akOldLoc.GetName() + " to [WILDERNESS]")
+			MiscUtil.PrintConsole("[mbw] Player changed location from " + akOldLoc.GetName() + " to [WILDERNESS]")
+		else
+			Debug.Notification("[mbw] Player changed location from [WILDERNESS] to [WILDERNESS]")
+			MiscUtil.PrintConsole("[mbw] Player changed location from [WILDERNESS] to [WILDERNESS]")
 		endif
 	endif	
 	AzazelInteractionsQuest.OnPlayerLocationChange(akOldLoc,akNewLoc)
