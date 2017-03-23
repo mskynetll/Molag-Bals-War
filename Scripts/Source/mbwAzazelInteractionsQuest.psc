@@ -8,9 +8,13 @@ Actor Property PlayerRef Auto
 
 mbwAzazelEquipmentRef Property AzazelEquipmentRef Auto
 mbwConfigQuest Property ConfigQuest Auto
+Zadlibs Property libs Auto
 
 GlobalVariable Property mbwAzazelDisposition Auto
 GlobalVariable Property mbwAzazelMood Auto
+
+GlobalVariable Property mbwIsWearingBlindfold Auto
+GlobalVariable Property mbwIsWearingHood Auto
 
 bool Property IsPlayerAzazelsApprentice Auto Conditional
 
@@ -19,6 +23,12 @@ bool Property HasGreetedSecondTime Auto Conditional
 int Property WornDevicesCount Auto Conditional
 
 Location Property CurrentLocation Auto
+
+Scene Property AzazelTakesOffBlindfoldDialogueScene Auto
+
+Armor Property BlindfoldWornByPlayer Auto
+
+Float Property LastTimeBlindfoldDialogueSceneFired Auto
 
 Event OnInit()
 	Maintenance()
@@ -120,26 +130,80 @@ Function OnSleepEnd(float hoursPassed,bool interrupted)
 EndFunction
 
 Function OnPlayerEquipOfDeviousDevice(Armor akArmor)
- 	
+	if ConfigQuest.ConsoleDebugEnabled
+	    MiscUtil.PrintConsole("[mbw] OnPlayerEquipOfDeviousDevice(), equipped " + akArmor)
+	endif
+
+	bool isWearingBlindfold = false
+	bool isWearingHood = false
+
+	if akArmor.HasKeyword(libs.zad_DeviousBlindfold) || akArmor.HasKeyword(libs.zad_DeviousHood)
+		mbwIsWearingBlindfold.SetValue(1.0)
+		BlindfoldWornByPlayer = libs.GetWornDevice(libs.playerref, libs.zad_DeviousBlindfold)
+		isWearingBlindfold = true
+		if akArmor.HasKeyword(libs.zad_DeviousHood)
+			BlindfoldWornByPlayer = libs.GetWornDevice(libs.playerref, libs.zad_DeviousHood)
+			mbwIsWearingHood.SetValue(1.0)
+			isWearingHood = true
+		endif
+	endif
+
+ 	if IsAzazelActiveFollower && IsPlayerAzazelsApprentice && (isWearingBlindfold || isWearingHood) 
+		float currentGameTime = Utility.GetCurrentGameTime()
+		float hoursSinceLastDialogue = Math.Abs(currentGameTime - LastTimeBlindfoldDialogueSceneFired) * 24.0
+
+		;fire force greet only once in 6 hours... so it won't get too annoying
+		if hoursSinceLastDialogue >= 6.0 ;perhaps make it dependent on Azazel's mood?
+	 		Utility.Wait(0.1)
+	 		if ConfigQuest.ConsoleDebugEnabled
+		    	MiscUtil.PrintConsole("[mbw] detected blindfold/hood and player is apprentice of Azazel, firing force greet of removal dialogue")
+			endif
+
+	 			 		
+	 		LastTimeBlindfoldDialogueSceneFired = Utility.GetCurrentGameTime()
+	 		;perhaps change conditions so only if in a good mood Azazel will take-off the device from player?
+	 		AzazelTakesOffBlindfoldDialogueScene.Start()
+	 	else
+	 		if ConfigQuest.ConsoleDebugEnabled
+		    	MiscUtil.PrintConsole("[mbw] detected blindfold/hood and player is apprentice of Azazel, but passed " + hoursSinceLastDialogue + " < 6 hours since last force greet for removal... skipping force greet.")
+			endif
+	 	endif
+ 	endif
 EndFunction
 
 Function OnPlayerUnequipOfDeviousDevice(Armor akArmor)
- 	
+	if ConfigQuest.ConsoleDebugEnabled
+	    MiscUtil.PrintConsole("[mbw] OnPlayerUnequipOfDeviousDevice(), unequipped " + akArmor)
+	endif 	
+
+	if akArmor.HasKeyword(libs.zad_DeviousBlindfold) || akArmor.HasKeyword(libs.zad_DeviousHood)
+		BlindfoldWornByPlayer = None
+		mbwIsWearingBlindfold.SetValue(0.0)
+		if akArmor.HasKeyword(libs.zad_DeviousHood)
+			mbwIsWearingHood.SetValue(0.0)
+		endif
+	endif
 EndFunction
 
 Function OnAzazelEquipOfDeviousDevice(Armor akArmor)
+	if ConfigQuest.ConsoleDebugEnabled
+	    MiscUtil.PrintConsole("[mbw] OnAzazelEquipOfDeviousDevice(), equipped " + akArmor)
+	endif 		
  	WornDevicesCount += 1
 EndFunction
 
 Function OnAzazelUnequipOfDeviousDevice(Armor akArmor)
+	if ConfigQuest.ConsoleDebugEnabled
+	    MiscUtil.PrintConsole("[mbw] OnAzazelUnequipOfDeviousDevice(), unequipped " + akArmor)
+	endif 	
  	WornDevicesCount -= 1
- 	WornDevicesCount = mbwUtility.MinInt(0,WornDevicesCount)
+ 	WornDevicesCount = mbwUtility.MaxInt(0,WornDevicesCount)
 EndFunction
 
 Function OnPlayerLocationChange(Location akOldLoc, Location akNewLoc)
-	if IsAzazelActiveFollower
-		CurrentLocation = akNewLoc
-	endif
+	CurrentLocation = akNewLoc
+
+	;TODO : consider adding mood changes based on location changes? perhaps newly discovered locations?
 EndFunction
 
 Function ModifyMood(float howMuch)
